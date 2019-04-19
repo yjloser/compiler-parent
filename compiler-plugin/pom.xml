@@ -30,7 +30,7 @@
         <repository>
             <id>city-repository</id>
             <name>city Repository</name>
-            <url>http://10.1.159.95:8090/repository/city-repository/</url>
+            <url>http://localhost:8090/repository/city-repository/</url>
         </repository>
     </distributionManagement>
     <build>
