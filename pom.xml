@@ -36,7 +36,7 @@
         <velocity.version>2.1</velocity.version>
         <mail.version>1.4.7</mail.version>
         <jedis.version>3.0.1</jedis.version>
-        <redis.version>1.0.0-RELEASE</redis.version>
+        <redis.version>1.0.0.RELEASE</redis.version>
     </properties>
 
     <dependencies>
