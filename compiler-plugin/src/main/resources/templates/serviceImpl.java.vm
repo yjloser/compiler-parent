@@ -1,0 +1,154 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage}; 
+import org.springframework.stereotype.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired; 
+import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
+import com.semitransfer.compiler.core.config.internal.annotation.LoggerManage;
+import com.semitransfer.compiler.core.config.internal.annotation.LoginManage;
+import static com.semitransfer.compiler.core.config.internal.response.DesktopEndResponse.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    /**
+	* 日志输出
+	*/
+    private final Logger logger = LoggerFactory.getLogger(${table.serviceImplName}.class);
+
+
+    /**
+	 * $!{table.comment}数据库操作
+	 */
+    @Autowired
+	private ${table.mapperName} ${table.entityPath}Mapper;
+
+	/**
+	 * $!{table.comment} 获取列表分页信息
+	 *   如果是有条件查询则使用注释掉语句
+	 *   QueryWrapper<> queryWrapper = new QueryWrapper<>();
+	 *   super.page(new Page<>(params.getInteger("beginPage"),params.getInteger("endPage")), queryWrapper);
+	 * @author ${author}
+	 * @param params 请求参数
+	 * @return 最终返回信息
+	 * @date ${date}
+	 */
+	@Override
+    @LoginManage(module = FIELD_LIST)
+    @LoggerManage(FIELD_LIST)
+	public JSONObject list${entity}(JSONObject params) {
+	    //返回值
+		JSONObject outcome = responseMessage();
+		//转换实体
+		${entity} item = JSON.toJavaObject(params, ${entity}.class);
+		//处理信息并设置返回分页信息
+        outcome.put(FIELD_ITEMS, this.${table.entityPath}Mapper.select${entity}Page(
+        		new Page(params.getLongValue(FIELD_CURRENT),
+        				params.getLongValue(FIELD_SIZE)), item));
+		return outcome;
+	}
+
+
+	/**
+	 * $!{table.comment} 获取单个信息
+	 * @author ${author}
+	 * @param id 实体主键
+	 * @return 最终返回信息
+	 * @date ${date}
+	 */
+	@Override
+    @LoginManage(module = FIELD_GET)
+    @LoggerManage(FIELD_GET)
+	public JSONObject get${entity}(int id) {
+	    //返回值
+		JSONObject outcome = responseMessage();
+		${entity} item = super.getById(id);
+		outcome.put(FIELD_ITEM,item);
+		return outcome;
+	}
+
+
+	/**
+	 * $!{table.comment} 新增信息
+	 * @author ${author}
+	 * @param params 请求参数
+	 * @return 最终返回信息
+	 * @date ${date}
+	 */
+	@Override
+	@LoginManage(module = FIELD_ADD)
+    @LoggerManage(FIELD_ADD)
+	public JSONObject add${entity}(JSONObject params) {
+	    //返回值
+		JSONObject outcome = responseMessage();
+		//转换实体
+		${entity} item = JSONObject.toJavaObject(params,${entity}.class);
+		if(super.save(item)){
+		    return outcome;
+		}
+		return responseMessageSaveFail();
+	}
+
+
+	/**
+	 * $!{table.comment} 根据条件更新信息
+	 * @author ${author}
+	 * @param params 请求参数
+	 * @return 最终返回信息
+	 * @date ${date}
+	 */
+	@Override
+    @LoginManage(module = FIELD_UPDATE)
+    @LoggerManage(FIELD_UPDATE)
+	public JSONObject update${entity}(JSONObject params) {
+	    //返回值
+		JSONObject outcome = responseMessage();
+		//转换实体
+		${entity} item = JSONObject.toJavaObject(params,${entity}.class);
+		if(super.updateById(item)){
+		    return outcome;
+		}
+		return responseMessageUpdateFail();
+	}
+
+
+	/**
+	 * $!{table.comment} 根据条件删除信息
+	 * @author ${author}
+	 * @param id 实体主键
+	 * @return 最终返回信息
+	 * @date ${date}
+	 */
+	@Override
+    @LoginManage(module = FIELD_DELETE)
+    @LoggerManage(FIELD_DELETE)
+	public JSONObject remove${entity}(int id) {
+		//返回值
+		JSONObject outcome = responseMessage();
+		if (super.removeById(id)) {
+		    return outcome;
+		}
+		return responseMessageRemoveFail();
+	}
+}
+#end

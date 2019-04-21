@@ -1,0 +1,169 @@
+package ${package.Controller};
+
+import com.alibaba.fastjson.JSONObject;
+import ${package.Service}.${table.serviceName};
+import com.semitransfer.compiler.core.config.internal.annotation.AclManage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+
+import static com.semitransfer.compiler.core.config.internal.api.BaseRquestAndResponse.getRequest;
+import static com.semitransfer.compiler.core.config.internal.api.BaseRquestAndResponse.getResponse;
+import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
+import static com.semitransfer.compiler.core.config.internal.request.DesktopEndRequest.requestMessage;
+import static com.semitransfer.compiler.core.config.internal.response.DesktopEndResponse.responseMessage;
+import static com.semitransfer.compiler.core.config.internal.response.DesktopEndResponse.write;
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+   /**
+   * 日志输出
+   */
+   private final Logger logger = LoggerFactory.getLogger(${table.controllerName}.class);
+
+   /**
+   * $!{table.comment} 服务类
+   */
+   @Autowired
+   private ${table.serviceName} i${entity}Service;
+
+   /**
+	* $!{table.comment}分页列表
+	*
+    * @author ${author}
+    * @date ${date}
+	*/
+	@AclManage("$!{table.comment}-列表")
+	@RequestMapping(FIELD_LIST)
+	public void list() {
+		//请求参数解析
+		JSONObject params = requestMessage(getRequest());
+		try {
+			// 返回信息
+			write(this.i${entity}Service.list${entity}(params), getResponse());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    //系统异常
+			responseMessage(NUM_ONE, getResponse());
+		}
+	}
+
+
+	/**
+	 * $!{table.comment}获取详情信息
+	 *
+	 * @author ${author}
+	 * @date ${date}
+	 */
+	@AclManage("$!{table.comment}-详情")
+	@RequestMapping(FIELD_GET)
+	public void get() {
+	    //请求参数解析
+		JSONObject params = requestMessage(getRequest());
+		try {
+		    // 返回信息
+			write(this.i${entity}Service.get${entity}(params.getInteger(FIELD_ID)), getResponse());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    //系统异常
+			responseMessage(NUM_ONE, getResponse());
+		}
+	}
+
+
+	/**
+	 * $!{table.comment}新增操作
+	 *
+	 * @author ${author}
+	 * @date ${date}
+	 */
+	@AclManage("$!{table.comment}-新增")
+	@RequestMapping(FIELD_ADD)
+	public void add() {
+	    //请求参数解析
+		JSONObject params = requestMessage(getRequest());
+		try {
+		    // 返回信息
+			write(this.i${entity}Service.add${entity}(params), getResponse());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    //系统异常
+			responseMessage(NUM_ONE, getResponse());
+		}
+	}
+
+
+	/**
+	 * $!{table.comment}更新操作
+	 *
+	 * @author ${author}
+	 * @date ${date}
+	 */
+	@AclManage("$!{table.comment}-更新")
+	@RequestMapping(FIELD_UPDATE)
+	public void update() {
+	    //请求参数解析
+		JSONObject params = requestMessage(getRequest());
+		try {
+		    // 返回信息
+			write(this.i${entity}Service.update${entity}(params), getResponse());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    //系统异常
+			responseMessage(NUM_ONE, getResponse());
+		}
+	}
+
+
+	/**
+	 * $!{table.comment}删除操作
+	 *
+	 * @author ${author}
+	 * @date ${date}
+	 */
+	@AclManage("$!{table.comment}-删除")
+	@RequestMapping(FIELD_DELETE)
+	public void remove() {
+	    //请求参数解析
+		JSONObject params = requestMessage(getRequest());
+		try {
+		    // 返回信息
+			write(this.i${entity}Service.remove${entity}(params.getInteger(FIELD_ID)), getResponse());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    //系统异常
+			responseMessage(NUM_ONE, getResponse());
+		}
+	}
+}
+#end

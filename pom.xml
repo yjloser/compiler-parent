@@ -5,11 +5,11 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
-    <description>父类</description>
+    <description>顶级</description>
 
     <modules>
         <module>compiler-plugin</module>
@@ -37,6 +37,8 @@
         <mail.version>1.4.7</mail.version>
         <jedis.version>3.0.1</jedis.version>
         <redis.version>1.0.0.RELEASE</redis.version>
+        <codec.version>1.12</codec.version>
+        <jaxb.version>2.2.12</jaxb.version>
     </properties>
 
     <dependencies>
@@ -86,11 +88,22 @@
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
             <type>jar</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${codec.version}</version>
+            </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
@@ -141,9 +154,9 @@
 
     <distributionManagement>
         <repository>
-            <id>city-repository</id>
-            <name>city Repository</name>
-            <url>http://localhost:8090/repository/city-repository/</url>
+            <id>test</id>
+            <name>test</name>
+            <url>http://192.168.81.120:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
     <build>

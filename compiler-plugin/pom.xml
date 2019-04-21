@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.semitransfer</groupId>
         <artifactId>compiler-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <generator.version>3.1.0</generator.version>
     </properties>
 
     <dependencies>
@@ -24,13 +25,35 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
         <repository>
-            <id>city-repository</id>
-            <name>city Repository</name>
-            <url>http://localhost:8090/repository/city-repository/</url>
+            <id>test</id>
+            <name>test</name>
+            <url>http://192.168.81.120:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
     <build>
