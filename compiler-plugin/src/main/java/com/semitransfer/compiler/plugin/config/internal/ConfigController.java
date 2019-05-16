@@ -22,6 +22,7 @@ import static com.semitransfer.compiler.plugin.config.internal.ConfigConstants.F
 import static com.semitransfer.compiler.plugin.config.internal.ConfigEnum.CONVERT_ERROR;
 import static com.semitransfer.compiler.plugin.config.internal.ConfigEnum.PROCESS_SUCCESS;
 import static com.semitransfer.compiler.plugin.config.internal.util.ConvertHandler.convertTableToEntity;
+import static com.semitransfer.compiler.plugin.config.internal.util.JvmInfo.getSystemInfo;
 
 
 /**
@@ -104,6 +105,7 @@ public class ConfigController {
         //jvm剩余内存总量
         sysInfo.put("jvmFree", Math.round(r.freeMemory() / 1024.0 / 1024.0) + "MB");
         sysInfo.put("processors", r.availableProcessors());
+        sysInfo.put("content", getSystemInfo());
         //插入缓存
         this.redisTempalte.hset(FIELD_SYS_JVM, addr.getHostAddress(), sysInfo.toJSONString());
     }
