@@ -299,15 +299,12 @@ public class JvmInfo {
      * @date 2019/5/15 0015
      */
     private static void fileData(StringBuilder sysBuilder) {
-        File[] files = File.listRoots();
-        for (File file : files) {
-            if (file.getTotalSpace() > 0) {
-                sysBuilder.append(file).append("磁盘的空间大小为：").append(file.getTotalSpace() / 1024 / 1024 / 1024).append("G").append("\r\n");
-                sysBuilder.append(file).append("磁盘的已使用空间大小为：").append((file.getTotalSpace() / 1024 / 1024 / 1024) - (file.getFreeSpace() / 1024 / 1024 / 1024)).append("G").append("\r\n");
-                sysBuilder.append(file).append("磁盘的可使用空间大小为：").append(file.getUsableSpace() / 1024 / 1024 / 1024).append("G").append("\r\n");
-                sysBuilder.append(file).append("磁盘的空闲空间大小为：").append(file.getFreeSpace() / 1024 / 1024 / 1024).append("G").append("\r\n");
-                sysBuilder.append("------------------------------------------------------------------").append("\r\n");
-            }
+        File[] file = File.listRoots();
+        for (File file2 : file) {
+            sysBuilder.append("硬盘总空间：").append(file2.getTotalSpace() / 1024 / 1024 / 1024).append("GB");
+            sysBuilder.append("硬盘已用空间：").append((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024).append("GB");
+            sysBuilder.append("硬盘可用空间：").append(file2.getFreeSpace() / 1024 / 1024 / 1024).append("GB");
+            sysBuilder.append("------------------------------------------------------------------").append("\r\n");
         }
     }
 

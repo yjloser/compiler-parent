@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -82,33 +83,38 @@ public class ConfigController {
         OperatingSystemMXBean osmxb = (com.sun.management.OperatingSystemMXBean) ManagementFactory
                 .getOperatingSystemMXBean();
         JSONObject sysInfo = new JSONObject();
-        long totalvirtualMemory = osmxb.getTotalSwapSpaceSize();
-        sysInfo.put("sysTotal", Math.round(totalvirtualMemory / 1024.0 / 1024.0) + "MB");
         // 物理内存（内存条）
         long physicalMemorySize = osmxb.getTotalPhysicalMemorySize();
-        sysInfo.put("sysPhysical", Math.round(physicalMemorySize / 1024.0 / 1024.0) + "MB");
+        sysInfo.put("memoryTotal", Math.round(physicalMemorySize / 1024.0 / 1024.0 / 1024.0) + "GB");
         // 剩余的物理内存
         long freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
         //剩余的物理内存
-        sysInfo.put("sysFree", Math.round(freePhysicalMemorySize / 1024.0 / 1024.0) + "MB");
-        //使用的内存
-        sysInfo.put("sysUsed", Math.round((physicalMemorySize - freePhysicalMemorySize) / 1024.0 / 1024.0) + "MB");
-        //内存使用率
+        sysInfo.put("memoryFree", Math.round(freePhysicalMemorySize / 1024.0 / 1024.0 / 1024.0) + "GB");
+        //使用的物理内存
+        sysInfo.put("memoryUsed", Math.round((physicalMemorySize - freePhysicalMemorySize) / 1024.0 / 1024.0 / 1024.0) + "GB");
+        //物理内存使用率
         Double compare = (1 - freePhysicalMemorySize * 1.0 / physicalMemorySize) * 100;
-        sysInfo.put("utilizationRate", compare.intValue() + "%");
+        sysInfo.put("memoryPercentage", compare.intValue() + "%");
         InetAddress addr;
         addr = InetAddress.getLocalHost();
         sysInfo.put("ip", addr.getHostAddress());
         Runtime r = Runtime.getRuntime();
         //jvm使用内存总量
-        sysInfo.put("jvmTotal", Math.round(r.totalMemory() / 1024.0 / 1024.0) + "MB");
+        sysInfo.put("jvmTotal", Math.round(r.totalMemory() / 1024.0 / 1024.0 / 1024.0) + "GB");
         //jvm剩余内存总量
-        sysInfo.put("jvmFree", Math.round(r.freeMemory() / 1024.0 / 1024.0) + "MB");
+        sysInfo.put("jvmFree", Math.round(r.freeMemory() / 1024.0 / 1024.0 / 1024.0) + "GB");
         sysInfo.put("processors", r.availableProcessors());
+        File[] file = File.listRoots();
+        for (File file2 : file) {
+            sysInfo.put("diskTotal", (file2.getTotalSpace() / 1024 / 1024 / 1024) + "GB");
+            sysInfo.put("diskUsed", ((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024) + "GB");
+            sysInfo.put("diskFree", (file2.getFreeSpace() / 1024 / 1024 / 1024) + "GB");
+            //硬盘使用率
+            Double diskcompare = (1 - file2.getFreeSpace() * 1.0 / file2.getTotalSpace()) * 100;
+            sysInfo.put("diskPercentage", diskcompare.intValue() + "%");
+        }
         sysInfo.put("content", getSystemInfo());
         //插入缓存
         this.redisTempalte.hset(FIELD_SYS_JVM, addr.getHostAddress(), sysInfo.toJSONString());
     }
-
-
 }
