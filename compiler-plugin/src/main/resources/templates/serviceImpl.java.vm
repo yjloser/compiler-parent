@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired; 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
-import com.semitransfer.compiler.core.config.internal.annotation.LoginManage;
+import com.semitransfer.compiler.core.config.internal.annotation.LoggerManage;
 import static com.semitransfer.compiler.core.config.internal.response.DesktopEndResponse.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 /**
