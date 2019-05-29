@@ -105,14 +105,17 @@ public class ConfigController {
         sysInfo.put("jvmFree", Math.round(r.freeMemory() / 1024.0 / 1024.0 / 1024.0) + "GB");
         sysInfo.put("processors", r.availableProcessors());
         File[] file = File.listRoots();
+        long diskTotal = 0L;
+        long diskFree = 0L;
         for (File file2 : file) {
-            sysInfo.put("diskTotal", (file2.getTotalSpace() / 1024 / 1024 / 1024) + "GB");
-            sysInfo.put("diskUsed", ((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024) + "GB");
-            sysInfo.put("diskFree", (file2.getFreeSpace() / 1024 / 1024 / 1024) + "GB");
-            //硬盘使用率
-            Double diskcompare = (1 - file2.getFreeSpace() * 1.0 / file2.getTotalSpace()) * 100;
-            sysInfo.put("diskPercentage", diskcompare.intValue() + "%");
+            diskTotal = diskTotal + (file2.getTotalSpace() / 1024 / 1024 / 1024);
+            diskFree = diskFree + (file2.getFreeSpace() / 1024 / 1024 / 1024);
+//            sysInfo.put("diskTotal", (file2.getTotalSpace() / 1024 / 1024 / 1024) + "GB");
+//            sysInfo.put("diskUsed", ((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024) + "GB");
+//            sysInfo.put("diskFree", (file2.getFreeSpace() / 1024 / 1024 / 1024) + "GB");
         }
+        //硬盘使用率
+        sysInfo.put("diskPercentage", ((1 - diskFree * 1.0 / diskTotal) * 100) + "%");
         sysInfo.put("content", getSystemInfo());
         //插入缓存
         this.redisTempalte.hset(FIELD_SYS_JVM, addr.getHostAddress(), sysInfo.toJSONString());
