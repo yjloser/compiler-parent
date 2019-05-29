@@ -1,6 +1,8 @@
 package com.semitransfer.compiler.core.config.internal.api;
 
 
+import java.io.File;
+
 /**
  * <p>
  * 封装常量
@@ -10,6 +12,11 @@ package com.semitransfer.compiler.core.config.internal.api;
  * @since 2019/4/20
  */
 public interface Constants {
+
+    /**
+     * 默认加载txt文件
+     */
+    String[] DEFAULT_TXT = {"config" + File.separator + "menu.txt", "config" + File.separator + "dept.txt"};
     /**
      * 0
      */

@@ -72,7 +72,7 @@ public class ${table.controllerName} {
 			// 返回信息
 			write(this.i${entity}Service.list${entity}(params), getResponse());
 		} catch (Exception e) {
-		    e.printStackTrace();
+			logger.error("$!{table.comment}列表：{}",e.getMessage());
 		    //系统异常
 			responseMessage(NUM_ONE, getResponse());
 		}
@@ -94,7 +94,7 @@ public class ${table.controllerName} {
 		    // 返回信息
 			write(this.i${entity}Service.get${entity}(params.getInteger(FIELD_ID)), getResponse());
 		} catch (Exception e) {
-		    e.printStackTrace();
+			logger.error("$!{table.comment}详情：{}",e.getMessage());
 		    //系统异常
 			responseMessage(NUM_ONE, getResponse());
 		}
@@ -116,7 +116,7 @@ public class ${table.controllerName} {
 		    // 返回信息
 			write(this.i${entity}Service.add${entity}(params), getResponse());
 		} catch (Exception e) {
-		    e.printStackTrace();
+			logger.error("$!{table.comment}新增：{}",e.getMessage());
 		    //系统异常
 			responseMessage(NUM_ONE, getResponse());
 		}
@@ -138,7 +138,7 @@ public class ${table.controllerName} {
 		    // 返回信息
 			write(this.i${entity}Service.update${entity}(params), getResponse());
 		} catch (Exception e) {
-		    e.printStackTrace();
+			logger.error("$!{table.comment}更新：{}",e.getMessage());
 		    //系统异常
 			responseMessage(NUM_ONE, getResponse());
 		}
@@ -160,7 +160,7 @@ public class ${table.controllerName} {
 		    // 返回信息
 			write(this.i${entity}Service.remove${entity}(params.getInteger(FIELD_ID)), getResponse());
 		} catch (Exception e) {
-		    e.printStackTrace();
+			logger.error("$!{table.comment}删除：{}",e.getMessage());
 		    //系统异常
 			responseMessage(NUM_ONE, getResponse());
 		}

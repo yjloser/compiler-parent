@@ -152,6 +152,13 @@ public class RegexUtils {
 
 
     /**
+     * 最少8个字符至少1个大写字母，1个小写字母，1个数字和1个特殊字符：
+     */
+    private final static Pattern STRENGTHEN_PASSWD_PATTER_TWO = Pattern.compile("^(?=.*((?=[\\x21-\\x7e]+)[^A-Za-z0-9]))(?=.*[a-zA-Z])(?=.*[0-9])[^\\u4e00-\\u9fa5]{8,16}$");
+
+
+
+    /**
      * 验证一般强度密码(无特殊字符)
      * 至少8个字符，至少1个大写字母，1个小写字母和1个数字,不能包含特殊字符（非数字字母）：
      *
@@ -162,6 +169,19 @@ public class RegexUtils {
      */
     public static boolean isCommonPassword(String str) {
         return COMMON_PASSWD_PATTER.matcher(str).matches();
+    }
+
+    /**
+     * 验证高强度密码（特殊字符）
+     * 最少8个字符，至少1个大写字母，1个小写字母，1个数字和1个特殊字符：
+     *
+     * @param str 验证字符
+     * @return 真为true
+     * @author Mr.Yang
+     * @date 2018/12/3 0003
+     */
+    public static boolean checkPassword(String str) {
+        return STRENGTHEN_PASSWD_PATTER_TWO.matcher(str).matches();
     }
 
 
