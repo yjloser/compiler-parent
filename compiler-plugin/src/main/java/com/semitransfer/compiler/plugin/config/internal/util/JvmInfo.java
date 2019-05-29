@@ -1,5 +1,7 @@
 package com.semitransfer.compiler.plugin.config.internal.util;
 
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.lang.management.*;
 import java.lang.reflect.InvocationTargetException;
@@ -301,9 +303,13 @@ public class JvmInfo {
     private static void fileData(StringBuilder sysBuilder) {
         File[] file = File.listRoots();
         for (File file2 : file) {
-            sysBuilder.append("硬盘总空间：").append(file2.getName()).append(":").append(file2.getTotalSpace() / 1024 / 1024 / 1024).append("GB").append("\r\n");
-            sysBuilder.append("硬盘已用空间：").append(file2.getName()).append(":").append((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024).append("GB").append("\r\n");
-            sysBuilder.append("硬盘可用空间：").append(file2.getName()).append(":").append(file2.getFreeSpace() / 1024 / 1024 / 1024).append("GB").append("\r\n");
+            String path = "";
+            if (!StringUtils.isEmpty(file2.getPath())) {
+                path = file2.getPath();
+            }
+            sysBuilder.append("硬盘总空间：").append(path).append(" ").append(file2.getTotalSpace() / 1024 / 1024 / 1024).append("GB").append("\r\n");
+            sysBuilder.append("硬盘已用空间：").append(path).append(" ").append((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024).append("GB").append("\r\n");
+            sysBuilder.append("硬盘可用空间：").append(path).append(" ").append(file2.getFreeSpace() / 1024 / 1024 / 1024).append("GB").append("\r\n");
             sysBuilder.append("------------------------------------------------------------------").append("\r\n");
         }
     }
