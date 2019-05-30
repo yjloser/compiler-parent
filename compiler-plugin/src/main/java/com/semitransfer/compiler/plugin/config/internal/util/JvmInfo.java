@@ -2,12 +2,13 @@ package com.semitransfer.compiler.plugin.config.internal.util;
 
 import org.springframework.util.StringUtils;
 
-import java.io.File;
+import java.io.*;
 import java.lang.management.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class JvmInfo {
 
@@ -319,5 +320,43 @@ public class JvmInfo {
         return "com.sun.management.OperatingSystem".equals(className)
                 || "sun.management.OperatingSystemImpl".equals(className)
                 || "com.sun.management.UnixOperatingSystem".equals(className);
+    }
+
+    public static float getCpuInfo() {
+        File file = new File("/proc/stat");
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(file)));
+            StringTokenizer token = new StringTokenizer(br.readLine());
+            token.nextToken();
+            long user1 = Long.parseLong(token.nextToken());
+            long nice1 = Long.parseLong(token.nextToken());
+            long sys1 = Long.parseLong(token.nextToken());
+            long idle1 = Long.parseLong(token.nextToken());
+            Thread.sleep(1000);
+            br = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(file)));
+            token = new StringTokenizer(br.readLine());
+            token.nextToken();
+            long user2 = Long.parseLong(token.nextToken());
+            long nice2 = Long.parseLong(token.nextToken());
+            long sys2 = Long.parseLong(token.nextToken());
+            long idle2 = Long.parseLong(token.nextToken());
+            return (float) ((user2 + sys2 + nice2) - (user1 + sys1 + nice1))
+                    / (float) ((user2 + nice2 + sys2 + idle2) - (user1 + nice1
+                    + sys1 + idle1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0f;
     }
 }

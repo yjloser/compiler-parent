@@ -23,6 +23,7 @@ import static com.semitransfer.compiler.plugin.config.internal.ConfigConstants.F
 import static com.semitransfer.compiler.plugin.config.internal.ConfigEnum.CONVERT_ERROR;
 import static com.semitransfer.compiler.plugin.config.internal.ConfigEnum.PROCESS_SUCCESS;
 import static com.semitransfer.compiler.plugin.config.internal.util.ConvertHandler.convertTableToEntity;
+import static com.semitransfer.compiler.plugin.config.internal.util.JvmInfo.getCpuInfo;
 import static com.semitransfer.compiler.plugin.config.internal.util.JvmInfo.getSystemInfo;
 
 
@@ -110,12 +111,11 @@ public class ConfigController {
         for (File file2 : file) {
             diskTotal = diskTotal + (file2.getTotalSpace() / 1024 / 1024 / 1024);
             diskFree = diskFree + (file2.getFreeSpace() / 1024 / 1024 / 1024);
-//            sysInfo.put("diskTotal", (file2.getTotalSpace() / 1024 / 1024 / 1024) + "GB");
-//            sysInfo.put("diskUsed", ((file2.getTotalSpace() - file2.getFreeSpace()) / 1024 / 1024 / 1024) + "GB");
-//            sysInfo.put("diskFree", (file2.getFreeSpace() / 1024 / 1024 / 1024) + "GB");
         }
         //硬盘使用率
         sysInfo.put("diskPercentage", ((1 - diskFree * 1.0 / diskTotal) * 100) + "%");
+        //cpu使用率
+        sysInfo.put("cpuPercentage", (int) getCpuInfo() + "%");
         sysInfo.put("content", getSystemInfo());
         //插入缓存
         this.redisTempalte.hset(FIELD_SYS_JVM, addr.getHostAddress(), sysInfo.toJSONString());
