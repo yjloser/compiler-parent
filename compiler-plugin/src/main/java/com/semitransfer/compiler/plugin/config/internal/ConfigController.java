@@ -114,8 +114,11 @@ public class ConfigController {
         }
         //硬盘使用率
         sysInfo.put("diskPercentage", ((1 - diskFree * 1.0 / diskTotal) * 100) + "%");
-        //cpu使用率
-        sysInfo.put("cpuPercentage", (int) getCpuInfo() + "%");
+        java.lang.management.OperatingSystemMXBean system = ManagementFactory.getOperatingSystemMXBean();
+        if (system.getName().equalsIgnoreCase("Linux")) {
+            //cpu使用率
+            sysInfo.put("cpuPercentage", (int) getCpuInfo() + "%");
+        }
         sysInfo.put("content", getSystemInfo());
         //插入缓存
         this.redisTempalte.hset(FIELD_SYS_JVM, addr.getHostAddress(), sysInfo.toJSONString());
