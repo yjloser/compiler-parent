@@ -886,6 +886,26 @@ public interface Constants {
     String FIELD_CHECK_STRICTLY = "check-strictly";
 
     /**
+     * 公司id
+     */
+    public static final String COMPANY_ID = "companyId";
+
+    /**
+     * 操作人
+     */
+    public static final String OPERATOR = "operator";
+
+    /**
+     * 更新时间
+     */
+    public static final String OPERATOR_TIME = "operateTime";
+
+    /**
+     * 操作ip
+     */
+    public static final String OPERATOR_IP = "operateIp";
+
+    /**
      * 下拉
      */
     String COMPONENT_SELECT = "Select";

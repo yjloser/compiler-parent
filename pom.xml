@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.1.RELEASE</version>
+    <version>0.0.2.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
@@ -154,9 +154,9 @@
 
     <distributionManagement>
         <repository>
-            <id>test</id>
-            <name>test</name>
-            <url>http://192.168.81.120:8081/repository/maven-releases/</url>
+            <id>city-repository</id>
+            <name>city Repository</name>
+            <url>http://10.1.159.95:8090/repository/city-repository/</url>
         </repository>
     </distributionManagement>
     <build>

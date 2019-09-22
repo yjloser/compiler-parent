@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
 import static com.semitransfer.compiler.core.config.internal.api.util.StringUtils.*;
@@ -61,6 +62,12 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
             try {
                 //转换json格式
                 JSONObject params = JSONObject.parseObject(requestParams);
+                //获取operator
+                //压入用户公司、操作ip、操作时间
+                params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+                params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
+                params.put(OPERATOR_IP, getIpAddr(request));
+                params.put(OPERATOR_TIME, LocalDateTime.now());
                 //获取头部loginkey
                 params.put(FIELD_LOGIN_KEY,
                         isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));

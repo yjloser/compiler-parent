@@ -1,13 +1,13 @@
 package com.semitransfer.compiler.core.config.internal.request;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.semitransfer.compiler.core.config.internal.api.AbstractRequest;
 import com.semitransfer.compiler.core.config.internal.response.MobileEndResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
 import static com.semitransfer.compiler.core.config.internal.api.encrypt.AesUtils.aesDecrypt;
@@ -107,6 +107,12 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
                 }
                 // 设置返回成功
                 params.put(FIELD_CHECK_STATUS, true);
+                //获取operator
+                //压入用户公司、操作ip、操作时间
+                params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+                params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
+                params.put(OPERATOR_IP, getIpAddr(request));
+                params.put(OPERATOR_TIME, LocalDateTime.now());
                 // 判断是否存在分页问题
                 if (!isEmpty(databaseType)) {
                     // 分页操作

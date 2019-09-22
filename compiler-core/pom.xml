@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.semitransfer</groupId>
         <artifactId>compiler-parent</artifactId>
-        <version>0.0.1.RELEASE</version>
+        <version>0.0.2.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <compiler-plugin.version>0.0.2.RELEASE</compiler-plugin.version>
     </properties>
 
 
@@ -52,7 +53,7 @@
         <dependency>
             <groupId>com.semitransfer</groupId>
             <artifactId>compiler-plugin</artifactId>
-            <version>0.0.1.RELEASE</version>
+            <version>${compiler-plugin.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -62,9 +63,9 @@
 
     <distributionManagement>
         <repository>
-            <id>test</id>
-            <name>test</name>
-            <url>http://192.168.81.120:8081/repository/maven-releases/</url>
+            <id>city-repository</id>
+            <name>city Repository</name>
+            <url>http://10.1.159.95:8090/repository/city-repository/</url>
         </repository>
     </distributionManagement>
     <build>
