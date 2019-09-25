@@ -95,6 +95,8 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
         }
         //转换json格式
         JSONObject params = new JSONObject();
+        //处理分页页面
+        checkPage(params);
         //获取头部loginkey
         params.put(FIELD_LOGIN_KEY,
                 isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));

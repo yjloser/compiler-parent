@@ -77,7 +77,7 @@ public abstract class AbstractRequest<T extends AbstractResponse> {
         // 每条数
         int pageSize;
         try {
-            currentPage =outcome.containsKey(FIELD_CURRENT)? outcome.getIntValue(FIELD_CURRENT):NUM_ONE;
+            currentPage = outcome.containsKey(FIELD_CURRENT) ? outcome.getIntValue(FIELD_CURRENT) : NUM_ONE;
             pageSize = outcome.containsKey(FIELD_SIZE) ?
                     outcome.getIntValue(FIELD_SIZE) : NUM_THIRTH;
         } catch (Exception e) {
