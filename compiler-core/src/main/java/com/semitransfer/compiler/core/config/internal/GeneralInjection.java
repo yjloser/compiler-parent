@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +67,7 @@ public class GeneralInjection {
      * @date 2018/12/7 0007
      */
     @PostConstruct
+    @Order(NUM_EIGHT)
     public void retrievalRequestMapping() throws InterruptedException {
         //新增免过滤路径
         String interceptroList = StringUtils.isEmpty(this.environment.getProperty(FIELD_ACL_INTERCEPTOR)) ?
