@@ -80,6 +80,9 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 	    //返回值
 		JSONObject outcome = responseMessage();
 		${entity} item = super.getById(id);
+		if (item == null) {
+			return responseMessage(50021);
+		}
 		outcome.put(FIELD_ITEM,item);
 		return outcome;
 	}
