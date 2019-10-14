@@ -76,7 +76,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 	 */
 	@Override
     @LoggerManage(FIELD_GET)
-	public JSONObject get${entity}(int id) {
+	public JSONObject get${entity}(String id) {
 	    //返回值
 		JSONObject outcome = responseMessage();
 		${entity} item = super.getById(id);
@@ -139,7 +139,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 	 */
 	@Override
     @LoggerManage(FIELD_DELETE)
-	public JSONObject remove${entity}(int id) {
+	public JSONObject remove${entity}(String id) {
 		//返回值
 		JSONObject outcome = responseMessage();
 		if (super.removeById(id)) {

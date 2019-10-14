@@ -36,7 +36,7 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return 最终返回信息
      * @date ${date}
      */
-    JSONObject get${entity}(int id);
+    JSONObject get${entity}(String id);
 
 
 
@@ -68,6 +68,6 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return 最终返回信息
      * @date ${date}
      */
-    JSONObject remove${entity}(int id);
+    JSONObject remove${entity}(String id);
 }
 #end
