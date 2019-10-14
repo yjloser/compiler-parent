@@ -100,6 +100,7 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
         //获取头部loginkey
         params.put(FIELD_LOGIN_KEY,
                 isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));
+        params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
         return params;
     }
 }
