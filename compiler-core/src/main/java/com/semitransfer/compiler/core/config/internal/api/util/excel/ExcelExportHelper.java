@@ -902,7 +902,7 @@ public class ExcelExportHelper {
         checkFilePathIsExist(filePath);
         //将Excel保存至指定目录下
         fileName = getFileName(fileName);
-        try (FileOutputStream out = new FileOutputStream(filePath + "\\" + fileName + ".xls")) {
+        try (FileOutputStream out = new FileOutputStream(filePath + fileName)) {
             book.write(out);
         } catch (Exception e) {
             e.printStackTrace();
