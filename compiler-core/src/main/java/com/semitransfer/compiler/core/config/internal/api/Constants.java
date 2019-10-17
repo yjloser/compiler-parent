@@ -443,6 +443,16 @@ public interface Constants {
     String FIELD_LOGIN_KEY = "loginKey";
 
     /**
+     * 短信
+     */
+    String FIELD_SMS = "sms";
+
+    /**
+     * 发送短信接口
+     */
+    String FIELD_SEND_SMS = "sendSms";
+
+    /**
      * 登录
      */
     String FIELD_LOGIN = "login";
@@ -888,22 +898,22 @@ public interface Constants {
     /**
      * 公司id
      */
-    public static final String COMPANY_ID = "companyId";
+    String COMPANY_ID = "companyId";
 
     /**
      * 操作人
      */
-    public static final String OPERATOR = "operator";
+    String OPERATOR = "operator";
 
     /**
      * 更新时间
      */
-    public static final String OPERATOR_TIME = "operateTime";
+    String OPERATOR_TIME = "operateTime";
 
     /**
      * 操作ip
      */
-    public static final String OPERATOR_IP = "operateIp";
+    String OPERATOR_IP = "operateIp";
 
     /**
      * 下拉
@@ -967,4 +977,91 @@ public interface Constants {
      * 全局数据
      */
     String GLOBAL_DATA = "globalData";
+
+    /**
+     * 账号
+     */
+    String ACCOUNT = "account";
+
+    /**
+     * 动作
+     */
+    String ACTION = "action";
+
+    /**
+     * 动作
+     */
+    String SEND = "send";
+
+    /**
+     * 批量
+     */
+    String REPORT = "report";
+
+    /**
+     * 密码
+     */
+    String PASSWORD = "password";
+
+    /**
+     * 手机
+     */
+    String MOBILE = "mobile";
+
+    /**
+     * 内容
+     */
+    String CONTENT = "content";
+
+    /**
+     * 接入号
+     */
+    String EXTNO = "extno";
+
+    /**
+     * 响应数据类型
+     */
+    String RT = "rt";
+
+    /**
+     * 数据格式
+     */
+    String JSONS = "json";
+
+    /**
+     * 占位符
+     */
+    String PLACEHOLDER = "PLACEHOLDER";
+
+    String SYS_PHONE = "phone";
+
+    /**
+     * 验证码 topic
+     */
+    String SMS_TOPIC = "sms";
+
+    /**
+     * 验证码
+     */
+    String SMS_CODE = "code";
+
+    /**
+     * ip队列
+     */
+    String SMS_IP = "smsIp";
+
+    /**
+     * 手机队列
+     */
+    String SMS_PHONE = "smsPhone";
+
+    /**
+     * 请求头队列
+     */
+    String SMS_AGENT = "smsAgent";
+
+    /**
+     * ip地址
+     */
+    String IP = "ip";
 }
