@@ -497,6 +497,11 @@ public interface ConfigConstants {
      */
     String FIELD_ACL_CODE = "aclCode";
 
+
+    String TOTAL = "total";
+
+    String RECORDS = "records";
+
     /**
      * 返回码
      */

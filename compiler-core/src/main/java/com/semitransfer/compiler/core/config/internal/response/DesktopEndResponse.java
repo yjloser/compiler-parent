@@ -1,12 +1,17 @@
 package com.semitransfer.compiler.core.config.internal.response;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.semitransfer.compiler.core.config.internal.api.AbstractResponse;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
 import static com.semitransfer.compiler.core.config.internal.api.encrypt.AnalyzeUtils.getCodeValue;
+import static com.semitransfer.compiler.plugin.config.internal.ConfigConstants.RECORDS;
+import static com.semitransfer.compiler.plugin.config.internal.ConfigConstants.TOTAL;
 
 /**
  * <p>
@@ -161,5 +166,48 @@ public class DesktopEndResponse extends AbstractResponse {
     public static void responseMessage(JSONObject outcome, HttpServletResponse response) {
         //响应前台
         write(outcome, response);
+    }
+
+    /**
+     * 重新组装
+     *
+     * @param params 参数
+     * @param object 实体
+     * @return 返回map
+     * @author Mr.Yang
+     * @date 2019/10/17 11:06
+     */
+    public static Map<String, String> appendPage(JSONObject params, Object object) {
+        //处理json格式化
+        JSONObject temp = JSONObject.parseObject(JSON.toJSONString(object));
+        Map<String, String> hashMap = new HashMap<>();
+        hashMap.put(FIELD_BIGENPAGE, params.getString(FIELD_BIGENPAGE));
+        hashMap.put(FIELD_SIZE, params.getString(FIELD_SIZE));
+        temp.forEach((k, v) -> hashMap.put(k, String.valueOf(v)));
+        return hashMap;
+    }
+
+
+    /**
+     * 重新组装返回结果
+     *
+     * @param outcome 返回信息
+     * @param params  请求参数
+     * @param total   总条数
+     * @param records 记录数
+     * @return 返回结果信息
+     * @author Mr.Yang
+     * @date 2019/10/21 11:09
+     */
+    public static JSONObject appendResult(JSONObject outcome, JSONObject params,
+                                          int total, Object records) {
+        JSONObject items = new JSONObject();
+        items.put(FIELD_CURRENT, params.getIntValue(FIELD_CURRENT));
+        items.put(FIELD_SIZE, params.getIntValue(FIELD_SIZE));
+        items.put(TOTAL, total);
+        items.put(RECORDS, records);
+        //处理信息并设置返回分页信息
+        outcome.put(FIELD_ITEMS, items);
+        return outcome;
     }
 }

@@ -60,17 +60,18 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
             //获取参数
             String requestParams = notEmptyEnhance(requestParameter) ? requestParameter : requestAttribute;
             try {
-                JSONObject temp = JSONObject.parseObject(requestParams);
+                JSONObject params = JSONObject.parseObject(requestParams);
                 //转换json格式
-                JSONObject params = new JSONObject();
-                temp.forEach((k, v) -> {
-                    if (notEmptyEnhance(v)) {
-                        params.put(k, v);
-                    }
-                });
+//                JSONObject params = new JSONObject();
+//                temp.forEach((k, v) -> {
+//                    if (notEmptyEnhance(v)) {
+//                        params.put(k, v);
+//                    }
+//                });
                 //获取operator
                 //压入用户公司、操作ip、操作时间
                 params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+                params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
                 params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
                 params.put(OPERATOR_IP, getIpAddr(request));
                 params.put(OPERATOR_TIME, LocalDateTime.now());

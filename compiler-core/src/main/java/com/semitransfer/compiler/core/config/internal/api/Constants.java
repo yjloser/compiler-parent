@@ -901,6 +901,11 @@ public interface Constants {
     String COMPANY_ID = "companyId";
 
     /**
+     * 公司id
+     */
+   String COMPANY_IDS = "companyIds";
+
+    /**
      * 操作人
      */
     String OPERATOR = "operator";
