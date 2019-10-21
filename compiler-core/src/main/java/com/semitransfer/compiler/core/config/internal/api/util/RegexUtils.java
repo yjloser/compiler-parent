@@ -51,6 +51,11 @@ public class RegexUtils {
     private final static Pattern NOT_ZERO_PATTERN = Pattern.compile("^\\+?[1-9][0-9]*$");
 
     /**
+     * 金额校验
+     */
+    private final static Pattern AMOUNT_PATTERN = Pattern.compile("(^[1-9]([0-9]+)?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\\.[0-9]([0-9])?$)");
+
+    /**
      * 数字表达式
      */
     private final static Pattern NUMBER_PATTERN = Pattern.compile("^[0-9]*$");
@@ -157,7 +162,6 @@ public class RegexUtils {
     private final static Pattern STRENGTHEN_PASSWD_PATTER_TWO = Pattern.compile("^(?=.*((?=[\\x21-\\x7e]+)[^A-Za-z0-9]))(?=.*[a-zA-Z])(?=.*[0-9])[^\\u4e00-\\u9fa5]{8,16}$");
 
 
-
     /**
      * 验证一般强度密码(无特殊字符)
      * 至少8个字符，至少1个大写字母，1个小写字母和1个数字,不能包含特殊字符（非数字字母）：
@@ -209,6 +213,18 @@ public class RegexUtils {
      */
     public static boolean isNotZero(String str) {
         return NOT_ZERO_PATTERN.matcher(str).matches();
+    }
+
+    /**
+     * 验证是否金额
+     *
+     * @param str 验证字符
+     * @return 真为true
+     * @author Mr.Yang
+     * @date 2018/12/3 0003
+     */
+    public static boolean isAmount(String str) {
+        return AMOUNT_PATTERN.matcher(str).matches();
     }
 
 
