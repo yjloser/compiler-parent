@@ -515,6 +515,6 @@ public interface ConfigConstants {
     /**
      * 免过滤拦截
      */
-    String ACL_INTERCEPTOR_LIST = ",/index/signIn,/index/changePassword,/index/code,/index/checkModify,/index/email,/core/globalData,/index/changePassword.html,/generator/config/table/to/entity,/index/userInfo,/sms/*,/index/signOut";
+    String ACL_INTERCEPTOR_LIST = ",/index/signIn,/index/changePassword,/index/code,/index/checkModify,/index/email,/core/globalData,/index/changePassword.html,/generator/config/table/to/entity,/sms/*,/index/signOut";
 
 }
