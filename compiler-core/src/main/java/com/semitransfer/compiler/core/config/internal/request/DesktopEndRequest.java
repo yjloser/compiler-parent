@@ -108,6 +108,7 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
         params.put(FIELD_LOGIN_KEY,
                 isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));
         params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+        params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
         return params;
     }
 }
