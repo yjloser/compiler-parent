@@ -903,7 +903,19 @@ public interface Constants {
     /**
      * 公司id
      */
-   String COMPANY_IDS = "companyIds";
+    String COMPANY_IDS = "companyIds";
+
+
+    /**
+     * 项目id
+     */
+    String PROJECT_IDS = "projectIds";
+
+
+    /**
+     * 项目id
+     */
+    String PROJECT_ID = "projectId";
 
     /**
      * 操作人
