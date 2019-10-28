@@ -3,6 +3,7 @@ package com.semitransfer.compiler.core.config.internal.api.encrypt;
 
 import lombok.Data;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,7 +23,7 @@ import static com.semitransfer.compiler.core.config.internal.api.Constants.NUM_Z
 
 /**
  * <p>
- *rsa工具
+ * rsa工具
  * </p>
  *
  * @author Mr.Yang
@@ -36,6 +37,24 @@ public class RsaUtils {
     private static Logger logger = LoggerFactory.getLogger(RsaUtils.class);
 
     public static final String RSA_PREFIX = "rsa";
+
+    public static final String CHARSET = "UTF-8";
+    public static final String RSA_ALGORITHM = "RSA";
+
+    private static final String PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALg9FR41HeIWr+YL\n" +
+            "FuQpPU4qg3+8dNebpLtjO5mj4u1LYCzutLBgym9/Cw/0M5NgfOszx2+cFDHFOiiL\n" +
+            "FkI6GM00U9hXLptCTQTSikZYL+EKvww2+XdDoHLboCxHSS/xChv+zog451XKR5Zg\n" +
+            "QnaJi/XvYwnTLaGtU1Wth41H89GDAgMBAAECgYAnQAwhtVs6cW7j6XTlAswmvPPq\n" +
+            "4LFbxbLgoRFvd/S+bRJ+QBSKhvRZsI0gxvu96A505UEVzACZYdU0Ef2Z+lqR8Fgq\n" +
+            "2/8Gjw4unw3BpEF/9YlsacZsdFISnDErWgc9e9YZUp5mBGtCEUlC2jjlngLNfRVr\n" +
+            "xq0+ZFdnwKMUZtuisQJBAOgn2g+02kaF7zIeJvkOibp3ZThFPQnWY7oEYJrbXK8B\n" +
+            "KRb924GTAabhM8rsYuGx7oSwGagsppgnY4O0N5xTNzUCQQDLKVS1rIhvdgLKsnHY\n" +
+            "KQBZBNa380wbhq1vWuV3y5oRdB3oTAYtpKpzpfhSA1A4Lk7amiIAhSj3NxeaiWxx\n" +
+            "uSTXAkEAns68FWhytDFkidUkddSjFIIeJJsAgR0+BP5/kw8h3LkfgZHQOVf1llGR\n" +
+            "W2vOzHMqJWxNcMRyhbzUD0EVlYM7TQJASh6sHxPxOukNH7J2wmxDCjcvtzD2ZVx/\n" +
+            "Tg8VhN0tOozolGWYI3LeFQ9KR3GaBMUwU6TEHvh196uL2v+kJuFrRQJAAOgdVmiW\n" +
+            "wGMog3AboZiKJ1PfTPBZrkJhGIX91Ewe8mfU2coW5JLORN9zfw/FpBE8bmZZEZ2Z\n" +
+            "WyXDYzL6RBdMKw==";
     /**
      * 公钥
      */
@@ -400,6 +419,146 @@ public class RsaUtils {
     }
 
     /**
+     * 返回解密信息
+     *
+     * @param encodedData 加密信息
+     * @return 返回解密信息
+     * @author Mr.Yang
+     * @date 2018/12/29 0029
+     */
+    public static String encodedData(String encodedData) {
+        //解密
+        try {
+            return privateDecrypt(encodedData, getPrivateKey(PRIVATE_KEY));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 返回解密信息
+     *
+     * @param privateKey  私钥
+     * @param encodedData 加密信息
+     * @return 返回解密信息
+     * @author Mr.Yang
+     * @date 2018/12/29 0029
+     */
+    public static String encodedData(String privateKey, String encodedData) {
+        //解密
+        try {
+            return privateDecrypt(encodedData, getPrivateKey(privateKey));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 公钥加密
+     *
+     * @param data
+     * @param publicKey
+     * @return
+     */
+    public static String publicEncrypt(String data, RSAPublicKey publicKey) {
+        try {
+            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), publicKey.getModulus().bitLength()));
+        } catch (Exception e) {
+            throw new RuntimeException("加密字符串[" + data + "]时遇到异常", e);
+        }
+    }
+
+    /**
+     * 私钥解密
+     *
+     * @param data
+     * @param privateKey
+     * @return
+     */
+
+    public static String privateDecrypt(String data, RSAPrivateKey privateKey) {
+        try {
+            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), privateKey.getModulus().bitLength()), CHARSET);
+        } catch (Exception e) {
+            throw new RuntimeException("解密字符串[" + data + "]时遇到异常", e);
+        }
+    }
+
+
+    /**
+     * 私钥加密
+     *
+     * @param data
+     * @param privateKey
+     * @return
+     */
+
+    public static String privateEncrypt(String data, RSAPrivateKey privateKey) {
+        try {
+            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+            return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), privateKey.getModulus().bitLength()));
+        } catch (Exception e) {
+            throw new RuntimeException("加密字符串[" + data + "]时遇到异常", e);
+        }
+    }
+
+    /**
+     * 公钥解密
+     *
+     * @param data
+     * @param publicKey
+     * @return
+     */
+
+    public static String publicDecrypt(String data, RSAPublicKey publicKey) {
+        try {
+            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, publicKey);
+            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), publicKey.getModulus().bitLength()), CHARSET);
+        } catch (Exception e) {
+            throw new RuntimeException("解密字符串[" + data + "]时遇到异常", e);
+        }
+    }
+
+
+    private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize) {
+        int maxBlock = 0;
+        if (opmode == Cipher.DECRYPT_MODE) {
+            maxBlock = keySize / 8;
+        } else {
+            maxBlock = keySize / 8 - 11;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int offSet = 0;
+        byte[] buff;
+        int i = 0;
+        try {
+            while (datas.length > offSet) {
+                if (datas.length - offSet > maxBlock) {
+                    buff = cipher.doFinal(datas, offSet, maxBlock);
+                } else {
+                    buff = cipher.doFinal(datas, offSet, datas.length - offSet);
+                }
+                out.write(buff, 0, buff.length);
+                i++;
+                offSet = i * maxBlock;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("加解密阀值为[" + maxBlock + "]的数据时发生异常", e);
+        }
+        byte[] resultDatas = out.toByteArray();
+        IOUtils.closeQuietly(out);
+        return resultDatas;
+    }
+
+    /**
      * 获取私钥包装类
      *
      * @return PublicKey 私钥包装类
@@ -413,6 +572,34 @@ public class RsaUtils {
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(keySpec);
+    }
+
+    /**
+     * 得到公钥
+     *
+     * @param publicKey 密钥字符串（经过base64编码）
+     * @throws Exception
+     */
+    public static RSAPublicKey getPublicKey(String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        //通过X509编码的Key指令获得公钥对象
+        KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decodeBase64(publicKey));
+        RSAPublicKey key = (RSAPublicKey) keyFactory.generatePublic(x509KeySpec);
+        return key;
+    }
+
+    /**
+     * 得到私钥
+     *
+     * @param privateKey 密钥字符串（经过base64编码）
+     * @throws Exception
+     */
+    public static RSAPrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        //通过PKCS#8编码的Key指令获得私钥对象
+        KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKey));
+        RSAPrivateKey key = (RSAPrivateKey) keyFactory.generatePrivate(pkcs8KeySpec);
+        return key;
     }
 
 
