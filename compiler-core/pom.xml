@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.semitransfer</groupId>
         <artifactId>compiler-parent</artifactId>
-        <version>0.0.17.RELEASE</version>
+        <version>0.0.18.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,11 +17,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <compiler-plugin.version>0.0.17.RELEASE</compiler-plugin.version>
+        <compiler-plugin.version>0.0.18.RELEASE</compiler-plugin.version>
     </properties>
 
 
     <dependencies>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+        </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>

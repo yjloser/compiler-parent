@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.17.RELEASE</version>
+    <version>0.0.18.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
@@ -39,6 +39,7 @@
         <redis.version>1.0.0.RELEASE</redis.version>
         <codec.version>1.12</codec.version>
         <jaxb.version>2.2.12</jaxb.version>
+        <net.version>3.6</net.version>
     </properties>
 
     <dependencies>
@@ -94,6 +95,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${net.version}</version>
+            </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
