@@ -911,6 +911,15 @@ public interface Constants {
      */
     String PROJECT_IDS = "projectIds";
 
+    /**
+     * 系统
+     */
+    String OS_NAME = "os.name";
+
+    /**
+     * WINDOWS
+     */
+    String WINDOWS = "windows";
 
     /**
      * 项目id
