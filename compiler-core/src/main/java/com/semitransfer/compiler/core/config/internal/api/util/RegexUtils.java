@@ -151,6 +151,11 @@ public class RegexUtils {
     private final static Pattern COMMON_PASSWD_PATTER = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
 
     /**
+     * 至少8个字符，至少1个大写字母，1个小写字母和1个数字,可能包含特殊字符
+     */
+    private final static Pattern COMMON_T_PASSWD_PATTER = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[^/]{8,16}$");
+
+    /**
      * 最少8个最多十个字符，至少1个大写字母，1个小写字母，1个数字和1个特殊字符：
      */
     private final static Pattern STRENGTHEN_PASSWD_PATTER = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
@@ -174,6 +179,20 @@ public class RegexUtils {
     public static boolean isCommonPassword(String str) {
         return COMMON_PASSWD_PATTER.matcher(str).matches();
     }
+
+    /**
+     * 验证一般强度密码
+     * 至少8个字符，至少1个大写字母，1个小写字母和1个数字,可能包含特殊字符：
+     *
+     * @param str 验证字符
+     * @return 真为true
+     * @author Mr.Yang
+     * @date 2018/12/3 0003
+     */
+    public static boolean isCommonTPassword(String str) {
+        return COMMON_T_PASSWD_PATTER.matcher(str).matches();
+    }
+
 
     /**
      * 验证高强度密码（特殊字符）
@@ -305,6 +324,11 @@ public class RegexUtils {
         return REALNEM_PATTERN.matcher(str).matches();
     }
 
+    public static void main(String[] args) {
+        Pattern COMMON_PASSWD_PATTER = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[^/]{8,16}$");
+
+        System.out.println(COMMON_PASSWD_PATTER.matcher("123848A").matches());
+    }
 
     /**
      * 验证是否是条形码
