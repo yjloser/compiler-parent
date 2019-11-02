@@ -13,7 +13,6 @@ public class FtpUtils {
      * Description: 向FTP服务器上传文件
      *
      * @param host     FTP服务器hostname
-     * @param port     FTP服务器端口
      * @param username FTP登录账号
      * @param password FTP登录密码
      * @param basePath FTP服务器基础目录
@@ -76,6 +75,7 @@ public class FtpUtils {
                     }
                 }
             }
+            ftp.enterLocalPassiveMode();
             //设置上传文件的类型为二进制类型
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             //上传文件
