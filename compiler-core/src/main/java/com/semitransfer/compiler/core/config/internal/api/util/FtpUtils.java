@@ -9,6 +9,10 @@ import java.io.*;
 
 public class FtpUtils {
 
+    public static String LOCAL_CHARSET = "GBK";
+    // FTP协议里面，规定文件名编码为iso-8859-1
+    private static String SERVER_CHARSET = "ISO-8859-1";
+
     /**
      * Description: 向FTP服务器上传文件
      *
@@ -46,6 +50,7 @@ public class FtpUtils {
         FTPClient ftp = new FTPClient();
         try {
             int reply;
+            ftp.setControlEncoding("UTF-8");//中文支持
             ftp.connect(host, port);// 连接FTP服务器
             // 如果采用默认端口，可以使用ftp.connect(host)的方式直接连接FTP服务器
             ftp.login(username, password);// 登录
@@ -149,15 +154,5 @@ public class FtpUtils {
             }
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        try {
-            FileInputStream in = new FileInputStream(new File("D:\\1.png"));
-            boolean flag = uploadFile("49.72.213.58", 21, "ftpuser", "ftpuser", "/home/ftpuser/www/images", "/2015/01/21", "gaigeming.jpg", in);
-            System.out.println(flag);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 }
