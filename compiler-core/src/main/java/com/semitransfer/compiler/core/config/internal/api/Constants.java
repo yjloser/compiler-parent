@@ -912,6 +912,11 @@ public interface Constants {
     String PROJECT_IDS = "projectIds";
 
     /**
+     * 管理id
+     */
+    String MANAGE_FLAG="manageFlag";
+
+    /**
      * 系统
      */
     String OS_NAME = "os.name";

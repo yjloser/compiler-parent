@@ -73,6 +73,7 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
                 params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
                 params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
                 params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
+                params.put(MANAGE_FLAG, notEmptyEnhance(request.getAttribute(MANAGE_FLAG)) ? request.getAttribute(MANAGE_FLAG) : null);
                 params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
                 params.put(OPERATOR_IP, getIpAddr(request));
                 params.put(OPERATOR_TIME, LocalDateTime.now());
