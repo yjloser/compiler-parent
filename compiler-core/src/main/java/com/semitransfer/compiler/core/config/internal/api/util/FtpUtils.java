@@ -46,6 +46,7 @@ public class FtpUtils {
      */
     public static boolean uploadFile(String host, int port, String username, String password, String basePath,
                                      String filePath, String filename, InputStream input) {
+        System.out.println(host + " " + port + " " + username + " " + password + " " + basePath);
         boolean result = false;
         FTPClient ftp = new FTPClient();
         try {
@@ -55,6 +56,7 @@ public class FtpUtils {
             // 如果采用默认端口，可以使用ftp.connect(host)的方式直接连接FTP服务器
             ftp.login(username, password);// 登录
             reply = ftp.getReplyCode();
+            System.out.println("登录ftp服务器：" + reply);
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftp.disconnect();
                 return result;
@@ -83,6 +85,7 @@ public class FtpUtils {
             ftp.enterLocalPassiveMode();
             //设置上传文件的类型为二进制类型
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.setBufferSize(1024 * 1024 * 100);
             //上传文件
             if (!ftp.storeFile(filename, input)) {
                 return result;
