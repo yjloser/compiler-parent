@@ -40,9 +40,15 @@
         <codec.version>1.12</codec.version>
         <jaxb.version>2.2.12</jaxb.version>
         <net.version>3.6</net.version>
+        <myexcel.version>3.0.4</myexcel.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.liaochong</groupId>
+            <artifactId>myexcel</artifactId>
+            <version>${myexcel.version}</version>
+        </dependency>
         <!-- 排除默认logback日志框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
