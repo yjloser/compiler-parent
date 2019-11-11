@@ -1,5 +1,7 @@
 package com.semitransfer.compiler.core.config.internal.api.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +20,8 @@ import java.security.interfaces.RSAPublicKey;
  */
 @Component
 public class RSAUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(RSAUtils.class);
 
     private static final String CODE = "RSA";
 
@@ -136,9 +140,13 @@ public class RSAUtils {
      * @throws FileNotFoundException
      */
     public static void clientKeyInit() throws Exception {
-        // 1.公钥加密初始化
-        ObjectInputStream ois = new ObjectInputStream(RSAUtils.class.getResourceAsStream(PUBLIC_KEY_PATH));
-        publicKey = (Key) ois.readObject();
+        try {
+            // 1.公钥加密初始化
+            ObjectInputStream ois = new ObjectInputStream(RSAUtils.class.getResourceAsStream(PUBLIC_KEY_PATH));
+            publicKey = (Key) ois.readObject();
+        } catch (Exception e) {
+            logger.error("===========初始化公钥失败===========");
+        }
     }
 
     /**
@@ -148,9 +156,13 @@ public class RSAUtils {
      * @throws ClassNotFoundException
      */
     public static void serverKeyInit() throws Exception {
-        // 2.私钥解密初始化
-        ObjectInputStream ois = new ObjectInputStream(RSAUtils.class.getResourceAsStream(PRIVATE_KEY_PATH));
-        privateKey = (Key) ois.readObject();
+        try {
+            // 2.私钥解密初始化
+            ObjectInputStream ois = new ObjectInputStream(RSAUtils.class.getResourceAsStream(PRIVATE_KEY_PATH));
+            privateKey = (Key) ois.readObject();
+        } catch (Exception e) {
+            logger.error("===========初始化私钥失败===========");
+        }
     }
 
     /**
