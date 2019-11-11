@@ -10,13 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.AesUtils.aesDecrypt;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.AesUtils.byteToStr;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.AnalyzeUtils.STATIC_KEYS;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.RsaUtils.decryptString;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.RsaUtils.getPrivateKey;
-import static com.semitransfer.compiler.core.config.internal.api.util.StringUtils.isEmpty;
-import static com.semitransfer.compiler.core.config.internal.api.util.StringUtils.notEmptyEnhance;
+import static com.semitransfer.compiler.core.config.internal.api.util.RSAUtils.decode;
+import static com.semitransfer.compiler.core.config.internal.api.util.StringUtils.*;
 
 
 /**
@@ -43,83 +38,46 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
      * @date 2018/7/7
      */
     public static JSONObject requestMessage(HttpServletRequest request) {
-        return requestMessage(request, null, null);
+        return requestMessage(request, null);
     }
 
 
     /**
      * 解析请求数据
      *
-     * @param request      请求类型
-     * @param fields       字符串数组-->校验请求参数
-     * @param databaseType 数据库类型
+     * @param request 请求类型
+     * @param fields  字符串数组-->校验请求参数
      * @return 返回解析得到的字符串
      * @author Mr.Yang
      * @date 2018/7/7
      */
-    public static JSONObject requestMessage(HttpServletRequest request, String databaseType, String... fields) {
+    public static JSONObject requestMessage(HttpServletRequest request, String... fields) {
         JSONObject params = new JSONObject();
+        //设置必要参数 设置返回成功
+        params.put(FIELD_CHECK_STATUS, true);
+        //获取头部loginkey
+        params.put(FIELD_LOGIN_KEY,
+                isEmptyEnhance(request.getHeader(FIELD_LOGIN_KEY)) ? null : request.getHeader(FIELD_LOGIN_KEY));
+        //压入用户公司、操作ip、操作时间
+        params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+        params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
+        params.put(OPERATOR_IP, getIpAddr(request));
+        params.put(OPERATOR_TIME, LocalDateTime.now());
+        params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
+        params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
         //获取requestParameter信息
-        String requestParameter = request.getParameter(FIELD_PARA);
+        String requestParameter = request.getParameter(FIELD_PARAMS);
         //获取requestAttribute信息
-        String requestAttribute = String.valueOf(request.getAttribute(FIELD_PARA));
+        String requestAttribute = String.valueOf(request.getAttribute(FIELD_PARAMS));
         //从请求中获取数据
         if (notEmptyEnhance(requestParameter)
                 || notEmptyEnhance(requestAttribute)) {
-            // 将请求数据转为json字符串
-            JSONObject requestParams = JSONObject.parseObject(notEmptyEnhance(requestParameter)
-                    ? requestParameter : requestAttribute);
-            // 解析密钥部分
             try {
-                // 获取密钥信息
-                String openKey = decryptString(getPrivateKey(), requestParams.getString(FIELD_KEY));
-                // 如果不一致直接报错，让外层捕捉一下
-                assert openKey != null;
-                if (!openKey.equals(STATIC_KEYS)) {
-                    throw new RuntimeException("密钥不相等");
-                }
-            } catch (Exception e) {
-                logger.error("私钥解析AES密钥错误，检查密钥与配置的是否一致", e);
-                // 解析失败
-                params.put(FIELD_CODE, 40002);
-                params.put(FIELD_MSG, "密钥不一致，解密失败");
-                params.put(FIELD_CHECK_STATUS, false);
-                return params;
-            }
-            // 解析参数部分
-            try {
-                // 解密
-                byte[] decrypted = aesDecrypt(requestParams.getString(FIELD_PARAMS));
-                // 获取参数结果
-                params = JSONObject.parseObject(byteToStr(decrypted));
-                if (fields != null) {
-                    // 校验请求参数
-                    for (String key : fields) {
-                        // 判断是否存在该字段、字段是否为空
-                        if (!params.containsKey(key) || isEmpty(params.getString(key))) {
-                            // 请求参数缺失
-                            params.put(FIELD_CHECK_STATUS, false);
-                            params.put(FIELD_CODE, 40001);
-                            params.put(FIELD_MSG, "请求缺少必选参数");
-                            return params;
-                        }
-                    }
-                }
-                // 设置返回成功
-                params.put(FIELD_CHECK_STATUS, true);
-                //获取operator
-                //压入用户公司、操作ip、操作时间
-                params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
-                params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
-                params.put(OPERATOR_IP, getIpAddr(request));
-                params.put(OPERATOR_TIME, LocalDateTime.now());
-                // 判断是否存在分页问题
-                if (!isEmpty(databaseType)) {
-                    // 分页操作
-                    checkPage(params, databaseType);
-                }
-                logger.info("{}|{}|{}|{}", 10000, getIpAddr(request), request.getRequestURI(), params.toString());
-                return params;
+                // 将请求数据转为json字符串
+                String tempParams = notEmptyEnhance(requestParameter)
+                        ? requestParameter : requestAttribute;
+                // 解析密钥
+                params = JSONObject.parseObject(decode(tempParams));
             } catch (Exception e) {
                 e.printStackTrace();
                 // 解析失败
@@ -128,7 +86,26 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
                 params.put(FIELD_CHECK_STATUS, false);
                 return params;
             }
+            if (fields != null) {
+                // 校验请求参数
+                for (String key : fields) {
+                    // 判断是否存在该字段、字段是否为空
+                    if (!params.containsKey(key) || isEmpty(params.getString(key))) {
+                        // 请求参数缺失
+                        params.put(FIELD_CHECK_STATUS, false);
+                        params.put(FIELD_CODE, 40001);
+                        params.put(FIELD_MSG, "请求缺少必选参数");
+                        return params;
+                    }
+                }
+            }
+            // 分页操作
+            checkPage(params);
+            logger.info("{}|{}|{}|{}", 10000, getIpAddr(request), request.getRequestURI(), params);
+            return params;
         }
-        return null;
+        //处理分页页面
+        checkPage(params);
+        return params;
     }
 }

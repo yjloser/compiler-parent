@@ -7,14 +7,13 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.semitransfer.compiler.core.config.internal.api.Constants.STR_ZERO;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.AesUtils.aesEncrypt;
 import static com.semitransfer.compiler.core.config.internal.api.encrypt.AnalyzeUtils.getCodeValue;
-import static com.semitransfer.compiler.core.config.internal.api.encrypt.RsaCoder.encryptBASE64;
+import static com.semitransfer.compiler.core.config.internal.api.util.RSAUtils.encode;
 
 
 /**
  * <p>
- *移动端响应
+ * 移动端响应
  * </p>
  *
  * @author Mr.Yang
@@ -64,11 +63,9 @@ public class MobileEndResponse extends AbstractResponse {
     public static void responseMessage(String body, boolean isEncrypt, HttpServletResponse response) {
         //是否加密输出
         if (isEncrypt) {
-            // 使用AES加密
-            byte[] encrypted = aesEncrypt(body);
             // 转换返回类型
             try {
-                body = encryptBASE64(encrypted);
+                body = encode(body);
             } catch (Exception e) {
                 logger.error("对返回数据进行加密错误,请检查参数是否配置正确.", e);
                 //失败直接写出
