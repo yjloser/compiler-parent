@@ -1,12 +1,13 @@
 package com.semitransfer.compiler.core.config.internal.response;
 
+import com.alibaba.fastjson.JSONObject;
 import com.semitransfer.compiler.core.config.internal.api.AbstractResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static com.semitransfer.compiler.core.config.internal.api.Constants.STR_ZERO;
+import static com.semitransfer.compiler.core.config.internal.api.Constants.*;
 import static com.semitransfer.compiler.core.config.internal.api.encrypt.AnalyzeUtils.getCodeValue;
 import static com.semitransfer.compiler.core.config.internal.api.util.RSAUtils.encode;
 
@@ -27,6 +28,51 @@ public class MobileEndResponse extends AbstractResponse {
      * 日志
      */
     private static Logger logger = LoggerFactory.getLogger(MobileEndResponse.class);
+
+    /**
+     * 默认返回成功
+     *
+     * @return JSONObject json类型
+     * @author Mr.Yang
+     * @date 2018/12/2
+     */
+    public static JSONObject responseMessage() {
+        return responseMessage(NUM_ZERO);
+    }
+
+    /**
+     * 返回平台全局码
+     *
+     * @param code 返回码
+     * @return JSONObject json类型
+     * @author Mr.Yang
+     * @date 2018/12/2
+     */
+    public static JSONObject responseMessage(Integer code) {
+        return responseMessage(code, false);
+    }
+
+
+    /**
+     * 返回平台全局码
+     *
+     * @param code   返回码
+     * @param change 是否使用默认成功返回码0
+     * @return JSONObject json类型
+     * @author Mr.Yang
+     * @date 2018/12/2
+     */
+    public static JSONObject responseMessage(Integer code, boolean change) {
+        JSONObject result = new JSONObject();
+        result.put(FIELD_CODE, code);
+        // 如果为true，则需要替换一下返回码
+        if (change) {
+            result.put(FIELD_CODE, NUM_ZERO);
+        }
+        //获取返回码对应的信息
+        result.put(FIELD_MSG, getCodeValue(String.valueOf(code)));
+        return result;
+    }
 
     /**
      * 默认成功

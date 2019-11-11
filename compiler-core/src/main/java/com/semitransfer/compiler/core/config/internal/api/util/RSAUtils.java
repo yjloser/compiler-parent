@@ -1,5 +1,8 @@
 package com.semitransfer.compiler.core.config.internal.api.util;
 
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -13,6 +16,7 @@ import java.security.interfaces.RSAPublicKey;
  * @author xms
  * @description RSA加密
  */
+@Component
 public class RSAUtils {
 
     private static final String CODE = "RSA";
@@ -53,6 +57,19 @@ public class RSAUtils {
      * RSA最大解密密文大小
      */
     private static final int MAX_DECRYPT_BLOCK = 128;
+
+    @PostConstruct
+    private void init() {
+        try {
+            // 客户端调用时初始化
+            clientKeyInit();
+
+            // 服务端调用时初始化改方法
+            serverKeyInit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 加密
@@ -110,18 +127,6 @@ public class RSAUtils {
             e.printStackTrace();
         }
         return null;
-    }
-
-    static {
-        try {
-            // 客户端调用时初始化
-            clientKeyInit();
-
-            // 服务端调用时初始化改方法
-            serverKeyInit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
