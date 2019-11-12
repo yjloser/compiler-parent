@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 #end
-
+import java.util.List;
 /**
  * <p>
  * $!{table.comment}
@@ -90,6 +90,9 @@ public class ${entity} implements Serializable {
 #end
     private ${field.propertyType} ${field.propertyName};
 #end
+
+    @TableField(exist = false)
+    private List<String> companyIds;
 ## ----------  END 字段循环遍历  ----------
 
 #if(!${entityLombokModel})
