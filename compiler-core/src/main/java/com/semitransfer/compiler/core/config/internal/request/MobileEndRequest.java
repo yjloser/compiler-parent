@@ -53,18 +53,6 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
      */
     public static JSONObject requestMessage(HttpServletRequest request, String... fields) {
         JSONObject params = new JSONObject();
-        //设置必要参数 设置返回成功
-        params.put(FIELD_CHECK_STATUS, true);
-        //获取头部loginkey
-        params.put(FIELD_LOGIN_KEY,
-                isEmptyEnhance(request.getHeader(FIELD_LOGIN_KEY)) ? null : request.getHeader(FIELD_LOGIN_KEY));
-        //压入用户公司、操作ip、操作时间
-        params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
-        params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
-        params.put(OPERATOR_IP, getIpAddr(request));
-        params.put(OPERATOR_TIME, LocalDateTime.now());
-        params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
-        params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
         //获取requestParameter信息
         String requestParameter = request.getParameter(FIELD_PARAMS);
         //获取requestAttribute信息
@@ -86,6 +74,8 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
                 params.put(FIELD_CHECK_STATUS, false);
                 return params;
             }
+            //压入其他信息
+            appendParams(params, request);
             if (fields != null) {
                 // 校验请求参数
                 for (String key : fields) {
@@ -104,8 +94,25 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
             logger.info("{}|{}|{}|{}", 10000, getIpAddr(request), request.getRequestURI(), params);
             return params;
         }
+        //压入其他信息
+        appendParams(params, request);
         //处理分页页面
         checkPage(params);
         return params;
+    }
+
+    private static void appendParams(JSONObject params, HttpServletRequest request) {
+        //设置必要参数 设置返回成功
+        params.put(FIELD_CHECK_STATUS, true);
+        //获取头部loginkey
+        params.put(FIELD_LOGIN_KEY,
+                isEmptyEnhance(request.getHeader(FIELD_LOGIN_KEY)) ? null : request.getHeader(FIELD_LOGIN_KEY));
+        //压入用户公司、操作ip、操作时间
+        params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
+        params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
+        params.put(OPERATOR_IP, getIpAddr(request));
+        params.put(OPERATOR_TIME, LocalDateTime.now());
+        params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
+        params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
     }
 }

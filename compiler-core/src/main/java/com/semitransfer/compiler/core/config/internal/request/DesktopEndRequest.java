@@ -50,6 +50,7 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
      * @date 2018/12/2
      */
     public static JSONObject requestMessage(HttpServletRequest request, String... fields) {
+        JSONObject params = new JSONObject();
         //获取requestParameter信息
         String requestParameter = request.getParameter(FIELD_PARAMS);
         //获取requestAttribute信息
@@ -60,26 +61,9 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
             //获取参数
             String requestParams = notEmptyEnhance(requestParameter) ? requestParameter : requestAttribute;
             try {
-                JSONObject params = JSONObject.parseObject(requestParams);
-                //转换json格式
-//                JSONObject params = new JSONObject();
-//                temp.forEach((k, v) -> {
-//                    if (notEmptyEnhance(v)) {
-//                        params.put(k, v);
-//                    }
-//                });
-                //获取operator
-                //压入用户公司、操作ip、操作时间
-                params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
-                params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
-                params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
-                params.put(MANAGE_FLAG, notEmptyEnhance(request.getAttribute(MANAGE_FLAG)) ? request.getAttribute(MANAGE_FLAG) : null);
-                params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
-                params.put(OPERATOR_IP, getIpAddr(request));
-                params.put(OPERATOR_TIME, LocalDateTime.now());
-                //获取头部loginkey
-                params.put(FIELD_LOGIN_KEY,
-                        isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));
+                params = JSONObject.parseObject(requestParams);
+                //压入参数
+                appendParams(params, request);
                 if (fields != null) {
                     // 校验请求参数
                     for (String key : fields) {
@@ -102,16 +86,33 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
                 return null;
             }
         }
-        //转换json格式
-        JSONObject params = new JSONObject();
+        //压入参数
+        appendParams(params, request);
         //处理分页页面
         checkPage(params);
+        return params;
+    }
+
+    /**
+     * 组装参数
+     *
+     * @param params  请求参数
+     * @param request 请求对象
+     * @author Mr.Yang
+     * @date 2019/11/12 13:48
+     */
+    private static void appendParams(JSONObject params, HttpServletRequest request) {
+        //设置必要参数 设置返回成功
+        params.put(FIELD_CHECK_STATUS, true);
         //获取头部loginkey
         params.put(FIELD_LOGIN_KEY,
                 isEmptyEnhance(request.getHeader(FIELD_X_TOKEN)) ? null : request.getHeader(FIELD_X_TOKEN));
         params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
         params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
         params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
-        return params;
+        params.put(MANAGE_FLAG, notEmptyEnhance(request.getAttribute(MANAGE_FLAG)) ? request.getAttribute(MANAGE_FLAG) : null);
+        params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
+        params.put(OPERATOR_IP, getIpAddr(request));
+        params.put(OPERATOR_TIME, LocalDateTime.now());
     }
 }
