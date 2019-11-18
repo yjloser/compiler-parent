@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.28.RELEASE</version>
+    <version>0.0.29.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
@@ -27,7 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <fastjson.version>1.2.57</fastjson.version>
+        <fastjson.version>1.2.62</fastjson.version>
         <mybatis.plus.version>3.1.0</mybatis.plus.version>
         <jwt.version>3.4.1</jwt.version>
         <poi.version>4.0.0</poi.version>
@@ -40,7 +40,7 @@
         <codec.version>1.12</codec.version>
         <jaxb.version>2.2.12</jaxb.version>
         <net.version>3.6</net.version>
-        <myexcel.version>3.0.4</myexcel.version>
+        <myexcel.version>3.2.1</myexcel.version>
     </properties>
 
     <dependencies>
