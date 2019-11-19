@@ -106,7 +106,7 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
         params.put(FIELD_CHECK_STATUS, true);
         //获取头部loginkey
         params.put(FIELD_LOGIN_KEY,
-                isEmptyEnhance(request.getHeader(FIELD_LOGIN_KEY)) ? null : request.getHeader(FIELD_LOGIN_KEY));
+                isEmptyEnhance(String.valueOf(request.getAttribute(FIELD_LOGIN_KEY))) ? null : request.getAttribute(FIELD_LOGIN_KEY));
         //压入用户公司、操作ip、操作时间
         params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
         params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
