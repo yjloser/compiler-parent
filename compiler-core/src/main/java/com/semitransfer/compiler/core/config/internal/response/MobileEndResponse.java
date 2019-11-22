@@ -126,29 +126,32 @@ public class MobileEndResponse extends AbstractResponse {
     /**
      * 业务出现错误返回方法
      *
-     * @param subCode  业务码
+     * @param code     业务码
      * @param response 响应对象
      * @author Mr.Yang
      * @date 2018/12/2
      */
-    public static void responseMessage(Object subCode, HttpServletResponse response) {
-        responseMessage(String.valueOf(subCode), getCodeValue(STR_ZERO), response);
+    public static void responseMessage(Object code, HttpServletResponse response) {
+        responseMessage(String.valueOf(code), getCodeValue(String.valueOf(code)), response);
     }
 
 
     /**
      * 业务出现错误返回方法
      *
-     * @param subCode  业务码
-     * @param subMsg   业务信息
      * @param response 响应对象
      * @author Mr.Yang
      * @date 2018/12/2
      */
 
-    public static void responseMessage(String subCode, String subMsg, HttpServletResponse response) {
-        //直接写出
-        write(new MobileEndResponse(null, null, null, subCode, subMsg), response);
+    public static void responseMessage(String code, String msg, HttpServletResponse response) {
+        //获取信息
+        JSONObject outcome = new JSONObject();
+        outcome.put(FIELD_CODE, code);
+        //获取返回码对应的信息
+        outcome.put(FIELD_MSG, msg);
+        //直接响应
+        write(outcome, response);
     }
 
 
