@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.31.RELEASE</version>
+    <version>0.0.32.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
