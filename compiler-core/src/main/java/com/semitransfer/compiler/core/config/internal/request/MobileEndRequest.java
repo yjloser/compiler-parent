@@ -110,7 +110,7 @@ public class MobileEndRequest extends AbstractRequest<MobileEndResponse> {
         //压入用户公司、操作ip、操作时间
         params.put(COMPANY_ID, notEmptyEnhance(request.getAttribute(COMPANY_ID)) ? request.getAttribute(COMPANY_ID) : null);
         params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_CONTACTS_NAME)) ? request.getAttribute(FIELD_CONTACTS_NAME) : null);
-        params.put(OPERATOR_IP, getIpAddr(request));
+        params.put(OPERATOR_IP, getIpAddr(request).trim().split(",")[NUM_ZERO]);
         params.put(OPERATOR_TIME, LocalDateTime.now());
         params.put(COMPANY_IDS, notEmptyEnhance(request.getAttribute(COMPANY_IDS)) ? request.getAttribute(COMPANY_IDS) : null);
         params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);

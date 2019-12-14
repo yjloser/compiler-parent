@@ -112,7 +112,7 @@ public class DesktopEndRequest extends AbstractRequest<DesktopEndResponse> {
         params.put(PROJECT_IDS, notEmptyEnhance(request.getAttribute(PROJECT_IDS)) ? request.getAttribute(PROJECT_IDS) : null);
         params.put(MANAGE_FLAG, notEmptyEnhance(request.getAttribute(MANAGE_FLAG)) ? request.getAttribute(MANAGE_FLAG) : null);
         params.put(OPERATOR, notEmptyEnhance(request.getAttribute(FIELD_OPERATOR_NAME)) ? request.getAttribute(FIELD_OPERATOR_NAME) : null);
-        params.put(OPERATOR_IP, getIpAddr(request));
+        params.put(OPERATOR_IP, getIpAddr(request).trim().split(",")[NUM_ZERO]);
         params.put(OPERATOR_TIME, LocalDateTime.now());
     }
 }
