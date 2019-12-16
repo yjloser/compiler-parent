@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.33.RELEASE</version>
+    <version>0.0.34.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
@@ -41,6 +41,7 @@
         <jaxb.version>2.2.12</jaxb.version>
         <net.version>3.6</net.version>
         <myexcel.version>3.2.1</myexcel.version>
+        <dom4j.version>1.6.1</dom4j.version>
     </properties>
 
     <dependencies>
@@ -101,6 +102,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>${dom4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>commons-net</groupId>
                 <artifactId>commons-net</artifactId>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.semitransfer</groupId>
         <artifactId>compiler-parent</artifactId>
-        <version>0.0.33.RELEASE</version>
+        <version>0.0.34.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <compiler-plugin.version>0.0.33.RELEASE</compiler-plugin.version>
+        <compiler-plugin.version>0.0.34.RELEASE</compiler-plugin.version>
     </properties>
 
 
@@ -62,6 +62,10 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
         </dependency>
     </dependencies>
 

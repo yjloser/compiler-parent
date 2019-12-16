@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * http常用处理工具类
@@ -83,6 +84,52 @@ public class HttpUtils {
      */
     public static String doGet(String url) {
         return doGet(url, null);
+    }
+
+
+    /**
+     * post有参请求
+     *
+     * @param url   请求地址
+     * @param param 请求参数
+     * @author Mr.Yang
+     * @date 2018/12/1
+     */
+    public static String doPost(String url, SortedMap<String, String> param) {
+        CloseableHttpResponse response = null;
+        CloseableHttpClient client = null;
+        Map<String, String> resultMap;
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            StringEntity entityParams = new StringEntity(XmlUtils.parseXML(param), StandardCharsets.UTF_8);
+            httpPost.setEntity(entityParams);
+            httpPost.setHeader("Content-Type", "text/xml;utf-8");
+            client = HttpClients.createDefault();
+            response = client.execute(httpPost);
+            if (response != null && response.getEntity() != null) {
+                resultMap = XmlUtils.toMap(EntityUtils.toByteArray(response.getEntity()), StandardCharsets.UTF_8.toString());
+                return XmlUtils.toXml(resultMap);
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (client != null) {
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
