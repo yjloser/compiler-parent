@@ -95,10 +95,9 @@ public class HttpUtils {
      * @author Mr.Yang
      * @date 2018/12/1
      */
-    public static String doPost(String url, SortedMap<String, String> param) {
+    public static Map<String, String> doPostMap(String url, SortedMap<String, String> param) {
         CloseableHttpResponse response = null;
         CloseableHttpClient client = null;
-        Map<String, String> resultMap;
         try {
             HttpPost httpPost = new HttpPost(url);
             StringEntity entityParams = new StringEntity(XmlUtils.parseXML(param), StandardCharsets.UTF_8);
@@ -107,8 +106,7 @@ public class HttpUtils {
             client = HttpClients.createDefault();
             response = client.execute(httpPost);
             if (response != null && response.getEntity() != null) {
-                resultMap = XmlUtils.toMap(EntityUtils.toByteArray(response.getEntity()), StandardCharsets.UTF_8.toString());
-                return XmlUtils.toXml(resultMap);
+                return XmlUtils.toMap(EntityUtils.toByteArray(response.getEntity()), StandardCharsets.UTF_8.toString());
             }
             return null;
         } catch (Exception e) {
