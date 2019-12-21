@@ -49,6 +49,7 @@ public class FtpUtils {
         System.out.println(host + " " + port + " " + username + " " + password + " " + basePath);
         boolean result = false;
         FTPClient ftp = new FTPClient();
+        ftp.enterLocalPassiveMode();
         try {
             int reply;
             ftp.setControlEncoding("UTF-8");//中文支持
@@ -82,7 +83,6 @@ public class FtpUtils {
                     }
                 }
             }
-            ftp.enterLocalPassiveMode();
             //设置上传文件的类型为二进制类型
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setBufferSize(1024 * 1024 * 100);
