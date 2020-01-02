@@ -68,14 +68,8 @@ public class ${table.controllerName} {
 	public void list() {
 		//请求参数解析
 		JSONObject params = requestMessage(getRequest());
-		try {
-			// 返回信息
-			write(this.i${entity}Service.list${entity}(params), getResponse());
-		} catch (Exception e) {
-			logger.error("$!{table.comment}列表：{}",e.getMessage());
-		    //系统异常
-			responseMessage(NUM_ONE, getResponse());
-		}
+		// 返回信息
+		write(this.i${entity}Service.list${entity}(params), getResponse());
 	}
 
 
@@ -90,14 +84,8 @@ public class ${table.controllerName} {
 	public void get() {
 	    //请求参数解析
 		JSONObject params = requestMessage(getRequest());
-		try {
-		    // 返回信息
-			write(this.i${entity}Service.get${entity}(params.getString(FIELD_ID)), getResponse());
-		} catch (Exception e) {
-			logger.error("$!{table.comment}详情：{}",e.getMessage());
-		    //系统异常
-			responseMessage(NUM_ONE, getResponse());
-		}
+		// 返回信息
+		write(this.i${entity}Service.get${entity}(params.getString(FIELD_ID)), getResponse());
 	}
 
 
@@ -112,14 +100,8 @@ public class ${table.controllerName} {
 	public void add() {
 	    //请求参数解析
 		JSONObject params = requestMessage(getRequest());
-		try {
-		    // 返回信息
-			write(this.i${entity}Service.add${entity}(params), getResponse());
-		} catch (Exception e) {
-			logger.error("$!{table.comment}新增：{}",e.getMessage());
-		    //系统异常
-			responseMessage(NUM_ONE, getResponse());
-		}
+		// 返回信息
+		write(this.i${entity}Service.add${entity}(params), getResponse());
 	}
 
 
@@ -134,14 +116,8 @@ public class ${table.controllerName} {
 	public void update() {
 	    //请求参数解析
 		JSONObject params = requestMessage(getRequest());
-		try {
-		    // 返回信息
-			write(this.i${entity}Service.update${entity}(params), getResponse());
-		} catch (Exception e) {
-			logger.error("$!{table.comment}更新：{}",e.getMessage());
-		    //系统异常
-			responseMessage(NUM_ONE, getResponse());
-		}
+		// 返回信息
+		write(this.i${entity}Service.update${entity}(params), getResponse());
 	}
 
 
@@ -156,14 +132,8 @@ public class ${table.controllerName} {
 	public void remove() {
 	    //请求参数解析
 		JSONObject params = requestMessage(getRequest());
-		try {
-		    // 返回信息
-			write(this.i${entity}Service.remove${entity}(params.getString(FIELD_ID)), getResponse());
-		} catch (Exception e) {
-			logger.error("$!{table.comment}删除：{}",e.getMessage());
-		    //系统异常
-			responseMessage(NUM_ONE, getResponse());
-		}
+		// 返回信息
+		write(this.i${entity}Service.remove${entity}(params.getString(FIELD_ID)), getResponse());
 	}
 }
 #end
