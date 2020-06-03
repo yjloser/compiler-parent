@@ -5,7 +5,7 @@
 
     <groupId>com.semitransfer</groupId>
     <artifactId>compiler-parent</artifactId>
-    <version>0.0.37.RELEASE</version>
+    <version>0.0.39.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>compiler-parent</name>
@@ -40,7 +40,7 @@
         <codec.version>1.12</codec.version>
         <jaxb.version>2.2.12</jaxb.version>
         <net.version>3.6</net.version>
-        <myexcel.version>3.2.1</myexcel.version>
+        <myexcel.version>3.7.5</myexcel.version>
         <dom4j.version>1.6.1</dom4j.version>
     </properties>
 
@@ -172,10 +172,13 @@
 
     <distributionManagement>
         <repository>
-            <id>city-repository</id>
-            <name>city Repository</name>
-            <url>http://10.1.159.95:8090/repository/city-repository/</url>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/126554-release-0Oq8hH/</url>
         </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/126554-snapshot-8tszAa/</url>
+        </snapshotRepository>
     </distributionManagement>
     <build>
         <plugins>
