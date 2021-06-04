@@ -31,7 +31,7 @@
         <mybatis.plus.version>3.1.0</mybatis.plus.version>
         <jwt.version>3.4.1</jwt.version>
         <poi.version>4.0.0</poi.version>
-        <httpclient.version>4.5.8</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <freemarker.version>2.3.28</freemarker.version>
         <velocity.version>2.1</velocity.version>
         <mail.version>1.4.7</mail.version>
