@@ -39,7 +39,7 @@
         <redis.version>1.0.0.RELEASE</redis.version>
         <codec.version>1.12</codec.version>
         <jaxb.version>2.2.12</jaxb.version>
-        <net.version>3.6</net.version>
+        <net.version>3.9.0</net.version>
         <myexcel.version>3.7.5</myexcel.version>
         <dom4j.version>1.6.1</dom4j.version>
     </properties>
